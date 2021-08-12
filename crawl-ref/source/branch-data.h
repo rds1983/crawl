@@ -185,7 +185,7 @@ const Branch branches[NUM_BRANCHES] =
       brflag::no_items | brflag::dangerous_end,
       DNGN_ENTER_TARTARUS, DNGN_ENTER_HELL, DNGN_ENTER_HELL,
       "Tartarus", "Tartarus", "Tar",
-      nullptr,
+      "Your will is drained by the waste of this place.",
       MAGENTA, MAGENTA,
       'Y', { RUNE_TARTARUS }, branch_noise::normal, HELL_MON_DIE_SIZE },
 
