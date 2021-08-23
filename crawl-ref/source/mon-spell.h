@@ -754,6 +754,13 @@ static const mon_spellbook mspell_list[] =
       }
     },
 
+    {  MST_TAINTED_LEVIATHAN,
+      {
+       { SPELL_MESMERISE, 33, MON_SPELL_NATURAL },
+       { SPELL_SILENCE, 33, MON_SPELL_WIZARD },
+      }
+    },
+
     // ('D') Dragons.
     {  MST_STEAM_DRAGON,
       {
