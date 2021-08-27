@@ -6187,6 +6187,20 @@ DUMMY(MONS_GOLEM, '9', LIGHTGREY, "golem", TILEP_MONS_IRON_GOLEM)
     {TILEP_MONS_MOLTEN_GARGOYLE}, TILE_ERROR
 },
 
+{
+    MONS_NARGUN, '9', BLUE, "nargun",
+    M_SEE_INVIS | M_FIGHTER,
+    MR_RES_ELEC | mrd(MR_RES_COLD, 3) | MR_RES_PETRIFY,
+    10, MONS_GOLEM, MONS_NARGUN, MH_NONLIVING, 100,
+    { {AT_HIT, AF_VULN, 65}, {AT_TAIL_SLAP, AF_COLD, 30}, AT_NO_ATK, AT_NO_ATK },
+    22, 540,
+    25, 4, MST_NARGUN, false, S_SILENT,
+    I_HUMAN, HT_LAND, 10, DEFAULT_ENERGY,
+    MONUSE_NOTHING, SIZE_MEDIUM,
+        MON_SHAPE_HUMANOID_TAILED,
+    {TILEP_ERROR}, TILE_ERROR
+},
+
 // major demons ('&')
 // Random demon in pan - only one per level. Stats are stored in ghost struct.
 {

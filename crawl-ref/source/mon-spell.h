@@ -1549,6 +1549,12 @@ static const mon_spellbook mspell_list[] =
       }
     },
 
+    {  MST_NARGUN,
+      {
+       { SPELL_PETRIFY, 66, MON_SPELL_NATURAL },
+      }
+    },
+
     // ('*') Concentrated orbs.
     {  MST_WRETCHED_STAR,
       {
