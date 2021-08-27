@@ -659,6 +659,7 @@ enum monster_type                      // env.mons[].type
 #else
     MONS_DRYAD,
     MONS_ELEIONOMA,
+    MONS_WENDIGO,
     MONS_SNAPLASHER_VINE,
     MONS_SNAPLASHER_VINE_SEGMENT,
 #endif
@@ -1133,6 +1134,7 @@ enum monster_type                      // env.mons[].type
     MONS_CRYSTAL_ECHIDNA,
     MONS_PUTRID_MOUTH,
     MONS_TAINTED_LEVIATHAN,
+    MONS_WENDIGO,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
