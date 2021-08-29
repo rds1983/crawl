@@ -1716,9 +1716,11 @@ static void _animate_scorch(coord_def p)
 spret cast_scorch(int pow, bool fail)
 {
     fail_check();
+
+    const int range = spell_range(SPELL_SCORCH, pow);
     monster *targ = nullptr;
     int seen = 0;
-    for (radius_iterator ri(you.pos(), LOS_NO_TRANS); ri; ++ri)
+    for (radius_iterator ri(you.pos(), LOS_NO_TRANS, C_SQUARE, range); ri; ++ri)
     {
         monster *mons = monster_at(*ri);
         if (!mons
