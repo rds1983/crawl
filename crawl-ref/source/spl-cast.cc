@@ -2154,6 +2154,9 @@ static spret _do_cast(spell_type spell, int powc, const dist& spd,
     case SPELL_SHATTER:
         return cast_shatter(powc, fail);
 
+    case SPELL_SCORCH:
+        return cast_scorch(powc, fail);
+
     case SPELL_IRRADIATE:
         return cast_irradiate(powc, &you, fail);
 
@@ -2684,6 +2687,8 @@ static dice_def _spell_damage(spell_type spell, bool evoked)
             return irradiate_damage(power, false);
         case SPELL_SHATTER:
             return shatter_damage(power);
+        case SPELL_SCORCH:
+            return scorch_damage(power, false);
         case SPELL_BATTLESPHERE:
             return battlesphere_damage(power);
         case SPELL_FROZEN_RAMPARTS:

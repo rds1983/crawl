@@ -1689,6 +1689,91 @@ void shillelagh(actor *wielder, coord_def where, int pow)
         _shatter_player(pow, wielder, true);
 }
 
+dice_def scorch_damage(int pow, bool random)
+{
+    const int max_dam = 10 + (random ? div_rand_round(pow, 5) : pow / 5);
+    return calc_dice(2, max_dam);
+}
+
+static void _animate_scorch(coord_def p)
+{
+    if (!(Options.use_animations & UA_BEAM))
+        return;
+
+#ifdef USE_TILE
+        view_add_tile_overlay(p, tileidx_zap(RED));
+#endif
+#ifndef USE_TILE_LOCAL
+        view_add_glyph_overlay(p, {dchar_glyph(DCHAR_FIRED_ZAP),
+                                   static_cast<unsigned short>(RED)});
+#endif
+
+    viewwindow(false);
+    update_screen();
+    scaled_delay(50);
+}
+
+spret cast_scorch(int pow, bool fail)
+{
+    fail_check();
+    monster *targ = nullptr;
+    int seen = 0;
+    for (radius_iterator ri(you.pos(), LOS_NO_TRANS); ri; ++ri)
+    {
+        monster *mons = monster_at(*ri);
+        if (!mons
+            || mons->wont_attack()
+            || !_act_worth_targeting(you, *mons))
+        {
+            continue;
+        }
+        ++seen;
+        if (one_chance_in(seen))
+            targ = mons;
+    }
+    if (!targ)
+    {
+        canned_msg(MSG_NOTHING_HAPPENS);
+        return spret::success;
+    }
+
+    const int base_dam = scorch_damage(pow, true).roll();
+    const int post_ac_dam = max(0, targ->apply_ac(base_dam));
+
+    mprf("Flames lash %s%s.", targ->name(DESC_THE).c_str(),
+         post_ac_dam ? "" : " but do no damage");
+
+    const coord_def p = targ->pos();
+
+    bolt beam;
+    beam.flavour = BEAM_FIRE;
+    const int damage = mons_adjust_flavoured(targ, beam, post_ac_dam);
+    _player_hurt_monster(*targ, damage, beam.flavour);
+
+    if (!targ->alive())
+    {
+        _animate_scorch(p);
+        return spret::success;
+    }
+
+    you.pet_target = targ->mindex();
+
+    if (damage > 0 && !targ->has_ench(ENCH_FIRE_VULN))
+    {
+        if (you.can_see(*targ))
+        {
+            mprf("%s fire resistance burns away.",
+                 targ->name(DESC_ITS).c_str());
+        }
+        const int dur = 3 + div_rand_round(damage, 3);
+        targ->add_ench(mon_enchant(ENCH_FIRE_VULN, 1, &you,
+                                   dur * BASELINE_DELAY));
+
+    }
+    _animate_scorch(targ->pos());
+    return spret::success;
+}
+
 dice_def irradiate_damage(int pow, bool random)
 {
     const int dice = 3;
