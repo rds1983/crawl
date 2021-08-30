@@ -51,7 +51,6 @@ static const vector<spell_type> spellbook_templates[] =
 
 {   // Book of Flames
     SPELL_FOXFIRE,
-    SPELL_SCORCH, // XXX
     SPELL_CONJURE_FLAME,
     SPELL_INNER_FLAME,
 },
@@ -485,7 +484,7 @@ static const vector<spell_type> spellbook_templates[] =
 },
 
 { // Book of Scorching
-    SPELL_FOXFIRE,
+    SPELL_SCORCH,
     SPELL_FIREBALL,
     SPELL_SUMMON_CACTUS,
 },
