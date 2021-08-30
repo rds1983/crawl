@@ -92,7 +92,7 @@ static void _hell_effects(int /*time_delta*/)
     switch (random2(3))
     {
         case 0:
-            contaminate_player(5000 + random2(5000));
+            contaminate_player(3000 + random2(3000));
             break;
         case 1:
             drain_player(70, true);
@@ -314,7 +314,7 @@ struct timed_effect
 static struct timed_effect timed_effects[] =
 {
     { rot_corpses,               200,   200, true  },
-    { _hell_effects,                 200,   600, false },
+    { _hell_effects,                 400,  1200, false },
 #if TAG_MAJOR_VERSION == 34
     { nullptr,                         0,     0, false },
 #endif
