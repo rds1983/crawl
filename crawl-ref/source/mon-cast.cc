@@ -565,7 +565,7 @@ static const map<spell_type, mons_spell_logic> spell_to_logic = {
         },
         _setup_seracfall_beam,
         MSPELL_LOGIC_NONE,
-        30, // 2.5x iceblast
+        24, // 2x iceblast
     } },
 };
 
@@ -3591,11 +3591,9 @@ static void _setup_ghostly_sacrifice_beam(bolt& beam, const monster& caster,
  * Pick a simulacrum for seracfall
  *
  *  @param  caster       The monster casting the spell.
- *                      TODO: constify (requires mon_spell_beam param const
  *  @return The target square, or an out of bounds coord if none was found.
  */
-static coord_def _mons_seracfall_source(const monster &caster,
-                                                bolt /*tracer*/)
+static coord_def _mons_seracfall_source(const monster &caster)
 {
     bolt tracer;
     setup_mons_cast(&caster, tracer, SPELL_ICEBLAST);
@@ -3640,14 +3638,13 @@ static coord_def _mons_seracfall_source(const monster &caster,
 
 static ai_action::goodness _seracfall_goodness(const monster &caster)
 {
-    bolt tracer;
-    return ai_action::good_or_impossible(in_bounds(_mons_seracfall_source(caster, tracer)));
+    return ai_action::good_or_impossible(in_bounds(_mons_seracfall_source(caster)));
 }
 
 /// Everything short of the actual explosion. Returns whether to fire.
 static bool _prepare_seracfall(monster &caster, bolt &beam)
 {
-    beam.source = _mons_seracfall_source(caster,beam);
+    beam.source = _mons_seracfall_source(caster);
     monster* victim = monster_at(beam.source);
     if (!victim || victim->mid == caster.mid)
         return false; // assert?
@@ -3664,7 +3661,7 @@ static void _setup_seracfall_beam(bolt& beam, const monster& caster,
                                           int power)
 {
     zappy(spell_to_zap(SPELL_SERACFALL), power, true, beam);
-    beam.source = _mons_seracfall_source(caster, beam);
+    beam.source = _mons_seracfall_source(caster);
 }
 
 static function<ai_action::goodness(const monster&)> _setup_hex_check(spell_type spell)
