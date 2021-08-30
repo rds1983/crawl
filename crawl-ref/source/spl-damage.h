@@ -115,3 +115,5 @@ void end_maxwells_coupling(bool quiet = false);
 
 spret cast_noxious_bog(int pow, bool fail);
 vector<coord_def> find_bog_locations(const coord_def &center, int pow);
+
+vector<coord_def> find_near_hostiles(int range);

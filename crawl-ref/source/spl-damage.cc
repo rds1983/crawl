@@ -1720,7 +1720,7 @@ spret cast_scorch(int pow, bool fail)
     const int range = spell_range(SPELL_SCORCH, pow);
     monster *targ = nullptr;
     int seen = 0;
-    for (radius_iterator ri(you.pos(), LOS_NO_TRANS, C_SQUARE, range); ri; ++ri)
+    for (radius_iterator ri(you.pos(), range, C_SQUARE, LOS_NO_TRANS); ri; ++ri)
     {
         monster *mons = monster_at(*ri);
         if (!mons
@@ -1774,6 +1774,24 @@ spret cast_scorch(int pow, bool fail)
     }
     _animate_scorch(targ->pos());
     return spret::success;
+}
+
+/// Mimics Scorch's target selection.
+vector<coord_def> find_near_hostiles(int range)
+{
+    vector<coord_def> hostiles;
+    for (radius_iterator ri(you.pos(), range, C_SQUARE, LOS_NO_TRANS); ri; ++ri)
+    {
+        monster *mons = monster_at(*ri);
+        if (mons
+            && !mons->wont_attack()
+            && _act_worth_targeting(you, *mons)
+            && you.can_see(*mons))
+        {
+            hostiles.push_back(*ri);
+        }
+    }
+    return hostiles;
 }
 
 dice_def irradiate_damage(int pow, bool random)
