@@ -1744,8 +1744,8 @@ spret cast_scorch(int pow, bool fail)
 
     mprf("Flames lash %s%s.", targ->name(DESC_THE).c_str(),
          post_ac_dam ? "" : " but do no damage");
-
     const coord_def p = targ->pos();
+    noisy(spell_effect_noise(SPELL_SCORCH), p);
 
     bolt beam;
     beam.flavour = BEAM_FIRE;
