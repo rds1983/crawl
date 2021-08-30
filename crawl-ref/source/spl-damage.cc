@@ -52,6 +52,7 @@
 #include "stringutil.h"
 #include "target.h"
 #include "terrain.h"
+ #include "tilepick.h"
 #include "transform.h"
 #include "unicode.h"
 #include "viewchar.h"
